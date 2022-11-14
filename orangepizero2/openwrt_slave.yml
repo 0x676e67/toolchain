@@ -2,7 +2,7 @@ version: '2.1'
 services:
   openwrt:
     image: gngpp/orangepizero2_openwrt:latest
-    container_name: OpenWrt
+    container_name: openwrt_slave
     hostname: OpenWrt
     privileged: true
     restart: always
@@ -13,7 +13,6 @@ services:
     sysctls:
       - net.netfilter.nf_conntrack_acct=1
     networks:
-      - lan
       - wan
 
 networks:
@@ -21,9 +20,3 @@ networks:
     driver: macvlan
     driver_opts:
       parent: eth0
-  lan:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 192.168.4.0/24
-         gateway: 192.168.4.2

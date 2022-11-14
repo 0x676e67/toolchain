@@ -1,0 +1,29 @@
+version: '2.1'
+services:
+  openwrt:
+    image: gngpp/orangepizero2_openwrt:master
+    container_name: openwrt_master
+    hostname: OpenWrt
+    privileged: true
+    restart: always
+    domainname: OpenWrt.lan
+    volumes:
+      - ./watchdog:/dev/watchdog
+    command: '/sbin/init'
+    sysctls:
+      - net.netfilter.nf_conntrack_acct=1
+    networks:
+      - lan
+      - wan
+
+networks:
+  wan:
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+  lan:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 192.168.4.0/24
+         gateway: 192.168.4.2
