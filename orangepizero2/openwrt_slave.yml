@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   openwrt:
-    image: gngpp/orangepizero2_openwrt:latest
+    image: gngpp/orangepizero2_openwrt:slave
     container_name: openwrt_slave
     hostname: OpenWrt
     privileged: true
