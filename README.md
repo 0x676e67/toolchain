@@ -1,5 +1,6 @@
-# container-profiles
-container profiles
+# profiles
 
-- docker
-- podman
+- 卸载docker
+```shell
+
+```
