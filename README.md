@@ -4,3 +4,11 @@
 ```shell
 wget -qO- https://raw.githubusercontent.com/gngpp/profiles/master/uninstall_docker.sh | bash
 ```
+
+### Proxmox
+
+- proxmox ve开启网卡sriov
+
+```shell
+wget -qO- https://raw.githubusercontent.com/gngpp/profiles/master/proxmox/init_sriov.sh | bash
+```  
