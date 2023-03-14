@@ -27,8 +27,9 @@ function handler() {
     echo $enable_device_vf_number >/sys/bus/pci/devices/$choose_bus_id/sriov_numvfs
 
     super_iface_name="$(lshw -businfo -c network | grep $choose_bus_id | awk '{print $2}' | sed 's/ //g')"
-    echo "根据bus ID设置vf网卡mac地址"
-    commands=""
+    echo "根据pf mac地址生成设置vf网卡mac地址"
+    commands_for_mac=""
+    commands_for_trust=""
     pci_devices_ids=$(lspci | grep 'Virtual Function' | awk '{print $1}')
     readarray -t pci_array <<<"$pci_devices_ids"
     for bus_device_id in "${pci_array[@]}"; do
@@ -54,8 +55,10 @@ function handler() {
                 fi
 
                 if [ "$1" == "daemon" ]; then
-                    command="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id mac $new_mac'"
-                    commands="$commands\n$command"
+                    command_for_trust="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id trust on'"
+                    command_for_mac="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id mac $new_mac'"
+                    commands_for_mac="$commands_for_mac\n$command_for_mac"
+                    commands_for_trust="$commands_for_trust\n$command_for_trust"
                 fi
             fi
         fi
@@ -68,18 +71,18 @@ function handler() {
         SUFFIX=".service"
         PROFILE="$PREFIX$choose_bus_id$SUFFIX"
         DAEMON_CONFIG="[Unit]
-    Description=Enable SR-IOV
+Description=Enable SR-IOV
     
-    [Service]
-    Type=oneshot
+[Service]
+Type=oneshot
 
-    ExecStart=/usr/bin/bash -c '/usr/bin/echo $enable_device_vf_number > /sys/bus/pci/devices/$choose_bus_id/sriov_numvfs'
+ExecStart=/usr/bin/bash -c '/usr/bin/echo $enable_device_vf_number > /sys/bus/pci/devices/$choose_bus_id/sriov_numvfs'
+$(echo -e $commands_for_trust)
+$(echo -e $commands_for_mac)
 
-    $(echo -e $commands)
-
-    [Install]
-    WantedBy=multi-user.target
-    "
+[Install]
+WantedBy=multi-user.target
+"
 
         mkdir -p -v /etc/systemd/system
         echo -e "$DAEMON_CONFIG" >"/etc/systemd/system/$PROFILE"
