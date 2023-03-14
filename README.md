@@ -1,4 +1,5 @@
-# profiles
+# Script profiles
+> 自用捣鼓脚本
 
 - 卸载docker (只适合Debian系)
 ```shell
