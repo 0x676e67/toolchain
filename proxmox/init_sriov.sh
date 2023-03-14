@@ -49,8 +49,8 @@ function handler() {
                 echo "$super_iface_name-$vf_id-$iface_name | $bus_device_id"-"$iface_name"-"$new_mac"
 
                 if [ "$1" == "vf" ]; then
-                    ip link set dev $super_iface_name vf $vf_id trust on
-                    ip link set dev $super_iface_name vf $vf_id mac $new_mac
+                    ip link set $super_iface_name vf $vf_id trust on
+                    ip link set $super_iface_name vf $vf_id mac $new_mac
                 fi
 
                 if [ "$1" == "daemon" ]; then
