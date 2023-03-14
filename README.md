@@ -1,4 +1,4 @@
-# profiles
+# Script profiles
 
 - 卸载docker (只适合Debian系)
 ```shell
