@@ -60,6 +60,8 @@ function handler() {
             fi
         fi
     done
+    # 显示对比
+    ip link show $super_iface_name
 
     if [ "$1" == "daemon" ]; then
         PREFIX="sriov."
