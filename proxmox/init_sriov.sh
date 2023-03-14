@@ -30,6 +30,7 @@ function handler() {
     echo "根据pf mac地址生成设置vf网卡mac地址"
     commands_for_mac=""
     commands_for_trust=""
+    commands_for_state=""
     pci_devices_ids=$(lspci | grep 'Virtual Function' | awk '{print $1}')
     readarray -t pci_array <<<"$pci_devices_ids"
     for bus_device_id in "${pci_array[@]}"; do
@@ -52,13 +53,17 @@ function handler() {
                 if [ "$1" == "vf" ]; then
                     ip link set $super_iface_name vf $vf_id trust on
                     ip link set $super_iface_name vf $vf_id mac $new_mac
+                    ip link set $super_iface_name vf $vf_id state enable
                 fi
 
                 if [ "$1" == "daemon" ]; then
                     command_for_trust="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id trust on'"
+                    command_for_state="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id state enable'"
                     command_for_mac="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id mac $new_mac'"
+                    commands_for_state="$commands_for_state\b$command_for_state"
                     commands_for_mac="$commands_for_mac\n$command_for_mac"
                     commands_for_trust="$commands_for_trust\n$command_for_trust"
+
                 fi
             fi
         fi
@@ -78,6 +83,7 @@ Type=oneshot
 
 ExecStart=/usr/bin/bash -c '/usr/bin/echo $enable_device_vf_number > /sys/bus/pci/devices/$choose_bus_id/sriov_numvfs'
 $(echo -e $commands_for_trust)
+$(echo -e $commands_for_state)
 $(echo -e $commands_for_mac)
 
 [Install]
