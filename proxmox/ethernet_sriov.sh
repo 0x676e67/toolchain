@@ -31,6 +31,7 @@ function handler() {
     commands_for_mac=""
     commands_for_trust=""
     commands_for_state=""
+    commands_for_spoofchk=""
     pci_devices_ids=$(lspci | grep 'Virtual Function' | awk '{print $1}')
     readarray -t pci_array <<<"$pci_devices_ids"
     for bus_device_id in "${pci_array[@]}"; do
@@ -54,16 +55,19 @@ function handler() {
                     ip link set $super_iface_name vf $vf_id trust on
                     ip link set $super_iface_name vf $vf_id mac $new_mac
                     ip link set $super_iface_name vf $vf_id state enable
+                    ip link set $super_iface_name vf $vf_id spoofchk off
                 fi
 
                 if [ "$1" == "daemon" ]; then
                     command_for_trust="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id trust on'"
                     command_for_state="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id state enable'"
                     command_for_mac="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id mac $new_mac'"
+                    command_for_spoofchk="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id spoofchk off'"
 
                     commands_for_trust="$commands_for_trust\n$command_for_trust"
                     commands_for_state="$commands_for_state\n$command_for_state"
                     commands_for_mac="$commands_for_mac\n$command_for_mac"
+                    commands_for_spoofchk="$commands_for_spoofchk\n$command_for_spoofchk"
                 fi
             fi
         fi
