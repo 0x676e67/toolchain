@@ -48,7 +48,7 @@ dmesg
 ```
 
 > 驱动放在/lib/modules下开机依旧不会自动加载，需加入模块加载名单
-> 
+
 ```shell
 pushd /usr/lib/modules-load.d/ && ls
 
