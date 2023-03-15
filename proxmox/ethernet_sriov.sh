@@ -52,17 +52,17 @@ function handler() {
                 echo "$super_iface_name-$vf_id-$iface_name | $bus_device_id"-"$iface_name"-"$new_mac"
 
                 if [ "$1" == "vf" ]; then
-                    ip link set $super_iface_name vf $vf_id trust on
-                    ip link set $super_iface_name vf $vf_id mac $new_mac
-                    ip link set $super_iface_name vf $vf_id state enable
-                    ip link set $super_iface_name vf $vf_id spoofchk off
+                    ip link set dev $super_iface_name vf $vf_id trust on
+                    ip link set dev $super_iface_name vf $vf_id mac $new_mac
+                    ip link set dev $super_iface_name vf $vf_id state enable
+                    ip link set dev $super_iface_name vf $vf_id spoofchk off
                 fi
 
                 if [ "$1" == "daemon" ]; then
-                    command_for_trust="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id trust on'"
-                    command_for_state="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id state enable'"
-                    command_for_mac="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id mac $new_mac'"
-                    command_for_spoofchk="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set $super_iface_name vf $vf_id spoofchk off'"
+                    command_for_trust="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set dev $super_iface_name vf $vf_id trust on'"
+                    command_for_state="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set dev $super_iface_name vf $vf_id state enable'"
+                    command_for_mac="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set dev $super_iface_name vf $vf_id mac $new_mac'"
+                    command_for_spoofchk="ExecStart=/usr/bin/bash -c '/usr/bin/ip link set dev $super_iface_name vf $vf_id spoofchk off'"
 
                     commands_for_trust="$commands_for_trust\n$command_for_trust"
                     commands_for_state="$commands_for_state\n$command_for_state"
