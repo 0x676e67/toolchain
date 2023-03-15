@@ -84,6 +84,7 @@ Description=Enable SR-IOV
 Type=oneshot
 
 ExecStart=/usr/bin/bash -c '/usr/bin/echo $enable_device_vf_number > /sys/bus/pci/devices/$choose_bus_id/sriov_numvfs'
+
 $(echo -e $commands_for_trust)
 $(echo -e $commands_for_state)
 $(echo -e $commands_for_spoofchk)
