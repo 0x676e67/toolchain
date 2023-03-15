@@ -14,7 +14,7 @@ wget https://raw.githubusercontent.com/gngpp/profiles/master/proxmox/ethernet_sr
 ```  
 
 ### Synology
-- 群晖（7.1）交叉工具链编译ixgbevf
+- 群晖（7.1）交叉工具链编译ixgbevf,进入root用户
 ```shell
 
 # 下载工具链
@@ -61,4 +61,5 @@ pushd /usr/lib/modules-load.d/ && ls
 70-misc-kernel.conf     70-video-kernel.conf
 
 echo "ixgbevf" > 70-network-0000-intel-ixgbevf.conf
+chmod 644 70-network-0000-intel-ixgbevf.conf
 ```
