@@ -72,8 +72,6 @@ function handler() {
             fi
         fi
     done
-    # 显示对比
-    ip link show $super_iface_name
 
     if [ "$1" == "daemon" ]; then
         PREFIX="sriov."
@@ -88,6 +86,7 @@ Type=oneshot
 ExecStart=/usr/bin/bash -c '/usr/bin/echo $enable_device_vf_number > /sys/bus/pci/devices/$choose_bus_id/sriov_numvfs'
 $(echo -e $commands_for_trust)
 $(echo -e $commands_for_state)
+$(echo -e $commands_for_spoofchk)
 $(echo -e $commands_for_mac)
 
 [Install]
@@ -98,6 +97,8 @@ WantedBy=multi-user.target
         echo -e "$DAEMON_CONFIG" >"/etc/systemd/system/$PROFILE"
         systemctl enable $PROFILE --now
     fi
+    # 显示对比
+    ip link show $super_iface_name
 }
 
 echo "选择下面选项"
