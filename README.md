@@ -47,19 +47,9 @@ dmesg
 
 ```
 
-> 驱动放在/lib/modules下开机依旧不会自动加载，需加入模块加载名单
+> 驱动放在/lib/modules下开机依旧不会自动加载，需加入启动计划任务脚本
 
 ```shell
-pushd /usr/lib/modules-load.d/ && ls
-
-....
-69-docker-vxlan.conf    70-network-0000-intel-e1000e.conf
-70-cpufreq-kernel.conf  70-network-0001-intel-igb.conf
-70-crypto-kernel.conf   70-network-0006-realtek-r8168-driver.conf
-70-flashcache.conf      70-synorbd.conf
-70-ipv6-kernel.conf     70-usb-kernel.conf
-70-misc-kernel.conf     70-video-kernel.conf
-
-echo "ixgbevf" > 70-network-0000-intel-ixgbevf.conf
-chmod 644 70-network-0000-intel-ixgbevf.conf
+insmod /lib/ixgbevf.ko
+ip link set ethX up
 ```
