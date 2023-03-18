@@ -26,10 +26,12 @@ else
 
         for mactoregister in ${MAC_LIST}; do
                 if ( grep -Fq $mactoregister $TMP_FILE ); then
-                        echo -e "${C_GREEN}$mactoregister${C_NC} - Exists!"
+                        echo -e "${C_GREEN}$mactoregister${C_NC} - Exists $IFBRIDGE-$LBRIDGE!"
+                        logger -p user.info -t "registermacaddr" "${C_GREEN}$mactoregister${C_NC} - Exists $IFBRIDGE-$LBRIDGE!"
                 else
                         /usr/sbin/bridge fdb add $mactoregister dev ${IFBRIDGE}
-                        echo -e "${C_RED}$mactoregister${C_NC} - Added!"
+                        echo -e "${C_RED}$mactoregister${C_NC} - Added $IFBRIDGE-$LBRIDGE!"
+                        logger -p user.info -t "registermacaddr" "${C_RED}$mactoregister${C_NC} - Added $IFBRIDGE-$LBRIDGE!"
                 fi
         done
         exit 0
