@@ -132,20 +132,21 @@ case $choose in
     read pf_vm
     echo -n "输入定时检查分钟："
     read check_min
+    check_min="$check_min"min
 
     echo -e "${C_GREEN}开始下载脚本${C_NC}"
     wget https://ghproxy.com/https://raw.githubusercontent.com/gngpp/profiles/master/proxmox/sr-iov-registermacaddr.sh -O /etc/sr-iov-registermacaddr.sh
     chmod +x /etc/sr-iov-registermacaddr.sh
 
     echo -e "${C_GREEN}开始创建Daemon服务${C_NC}"
-    TIMER_PROFILE="sriov-$super_iface_name.timer"
-    PROFILE="sriov-$super_iface_name.service"
+    TIMER_PROFILE="sriov-$pf_vm-$super_iface_name.timer"
+    PROFILE="sriov-$pf_vm-$super_iface_name.service"
     TIMER_DAEMON_CONFIG="[Unit]
 [Unit]
 Description=Enable SR-IOV ForwardDB Check Timer
 
 [Timer]
-OnUnitActiveSec={$check_min}min
+OnUnitActiveSec=$check_min
 Unit=$PROFILE
 
 [Install]
