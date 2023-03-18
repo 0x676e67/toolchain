@@ -1,8 +1,11 @@
 #!/bin/bash
 echo "-----网卡SR-IOV配置脚本，GitHub：https://github.com/gngpp/profiles -----"
+C_RED='\e[0;31m'
+C_GREEN='\e[0;32m'
+C_NC='\e[0m'
 
 if [ -z "$(command -v lshw)" ]; then
-    # 需要安装lshw具工
+    echo -e "${C_GREEN}开始安装lshw${C_NC}"
     sudo apt update && sudo apt install lshw -y
 fi
 
@@ -11,11 +14,11 @@ SUPPORT_DEVICES="$(
 )"
 
 if [ -z "$SUPPORT_DEVICES" ]; then
-    echo "设备没有支持开启SR-IOV的网卡"
+    echo -e "${C_RED}设备没有支持开启SR-IOV的网卡${C_NC}"
     exit 0
 fi
 
-echo -e "支持的设备有：\n$SUPPORT_DEVICES\n以上打印的都是设备bus ID"
+echo -e "${C_GREEN}支持的设备有：\n$SUPPORT_DEVICES\n以上打印的都是设备Bus ID${C_NC}"
 
 function handler() {
     echo -n "输入设备bus ID："
@@ -49,7 +52,7 @@ function handler() {
                 mac_num_10=$(expr $y + $mac_num_10)
                 new_mac=$(echo "obase=16;$mac_num_10" | bc)
                 new_mac=$(echo $new_mac | sed -E 's/(..)(..)(..)(..)(..)(..)/\1:\2:\3:\4:\5:\6/g')
-                echo "$super_iface_name-$vf_id-$iface_name | $bus_device_id"-"$iface_name"-"$new_mac"
+                echo -e "${C_GREEN}$super_iface_name-$vf_id-$iface_name | $bus_device_id"-"$iface_name"-"$new_mac${C_CN}"
 
                 if [ "$1" == "vf" ]; then
                     ip link set dev $super_iface_name vf $vf_id trust on
@@ -74,6 +77,7 @@ function handler() {
     done
 
     if [ "$1" == "daemon" ]; then
+        echo -e "${C_GREEN}开始创建Daemon服务${C_NC}"
         PREFIX="sriov."
         SUFFIX=".service"
         PROFILE="$PREFIX$choose_bus_id$SUFFIX"
@@ -93,18 +97,19 @@ $(echo -e $commands_for_mac)
 [Install]
 WantedBy=multi-user.target
 "
-
         mkdir -p -v /etc/systemd/system
         echo -e "$DAEMON_CONFIG" >"/etc/systemd/system/$PROFILE"
+        echo -e "${C_GREEN}创建Daemon服务完毕${C_NC}"
         systemctl enable $PROFILE --now
+        echo -e "${C_GREEN}Daemon服务已启动${C_NC}"
     fi
     # 显示对比
     ip link show $super_iface_name
 }
 
-echo "选择下面选项"
-echo "[1] 设置vf数量"
-echo "[2] 生成daemon服务"
+echo "[1] 创建VF并启用"
+echo "[2] 创建VF开机Daemon服务"
+echo "[3] 创建定时任务ForwardDB检查"
 
 read -p "选择：" choose
 case $choose in
@@ -115,7 +120,54 @@ case $choose in
 [2])
     handler "daemon"
     ;;
+[3])
+    echo -e "${C_GREEN}脚本将创建定时检查容器或 VM 的所有 mac 地址是否已经在接口的 ForwardDB 中，若不在则加入ForwardDB${C_NC}"
+    echo -n "输入设备Bus ID："
+    read choose_bus_id
+    super_iface_name="$(lshw -businfo -c network | grep $choose_bus_id | awk '{print $2}' | sed 's/ //g')"
+    echo -e "${C_GREEN}容器配置默认路径：/etc/pve/nodes/proxmox/lxc${C_NC}"
+    echo -e "${C_GREEN}VM配置默认路径：/etc/pve/nodes/proxmox/qemu-server${C_NC}"
 
+    echo -n "输入绑定PF的网桥："
+    read pf_vm
+    echo -n "输入定时检查分钟："
+    read check_min
+
+    echo -e "${C_GREEN}开始下载脚本${C_NC}"
+    wget https://ghproxy.com/https://raw.githubusercontent.com/gngpp/profiles/master/proxmox/sr-iov-registermacaddr.sh -O /etc/sr-iov-registermacaddr.sh
+    chmod +x /etc/sr-iov-registermacaddr.sh
+
+    echo -e "${C_GREEN}开始创建Daemon服务${C_NC}"
+    TIMER_PROFILE="$sriov-$super_iface_name.timer"
+    PROFILE="$sriov-$super_iface_name.service"
+    TIMER_DAEMON_CONFIG="[Unit]
+[Unit]
+Description=Enable SR-IOV ForwardDB Check Timer
+
+[Timer]
+OnUnitActiveSec={$check_min}min
+Unit=$PROFILE
+
+[Install]
+WantedBy=timers.target
+"
+    DAEMON_CONFIG="[Unit]
+[Unit]
+Description=SR-IOV ForwardDB Check
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/bash -c '/etc/sr-iov-registermacaddr.sh $super_iface_name $pf_vm'
+"
+        mkdir -p -v /etc/systemd/system
+        echo -e "$DAEMON_CONFIG" >"/etc/systemd/system/$PROFILE"
+        echo -e "$TIMER_DAEMON_CONFIG" >"/etc/systemd/system/$TIMER_PROFILE"
+        echo -e "${C_GREEN}创建daemon服务完毕${C_NC}"
+        systemctl daemon-reload
+        systemctl enable $TIMER_PROFILE --now
+        echo -e "${C_GREEN}daemon服务已启动${C_NC}"
+
+;;
 *)
     exit 0
     ;;
