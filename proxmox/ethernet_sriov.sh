@@ -101,8 +101,7 @@ WantedBy=multi-user.target
         echo -e "$DAEMON_CONFIG" >"/etc/systemd/system/$PROFILE"
         echo -e "${C_GREEN}创建Daemon服务完毕${C_NC}"
         systemctl daemon-reload
-        systemctl enable $PROFILE
-        systemctl start $PROFILE
+        systemctl enable $PROFILE && systemctl start $PROFILE
         echo -e "${C_GREEN}Daemon服务已启动${C_NC}"
     fi
     # 显示对比
@@ -167,8 +166,7 @@ ExecStart=/usr/bin/bash -c '/etc/sr-iov-registermacaddr.sh $super_iface_name $pf
         echo -e "$TIMER_DAEMON_CONFIG" >"/etc/systemd/system/$TIMER_PROFILE"
         echo -e "${C_GREEN}创建daemon服务完毕${C_NC}"
         systemctl daemon-reload
-        systemctl enable $TIMER_PROFILE
-        systemctl start $TIMER_PROFILE
+        systemctl enable $TIMER_PROFILE && systemctl start $TIMER_PROFILE
         echo -e "${C_GREEN}daemon服务已启动${C_NC}"
 ;;
 *)
