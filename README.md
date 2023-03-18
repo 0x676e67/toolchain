@@ -10,7 +10,7 @@ wget -qO- https://raw.githubusercontent.com/gngpp/profiles/master/uninstall_dock
 - proxmox ve开启网卡sriov
 
 ```shell
-wget https://raw.githubusercontent.com/gngpp/profiles/master/proxmox/ethernet_sriov.sh | bash +x ethernet_sriov.sh 
+wget https://raw.githubusercontent.com/gngpp/profiles/master/proxmox/ethernet_sriov.sh && bash +x ethernet_sriov.sh 
 ```  
 
 ### Synology
