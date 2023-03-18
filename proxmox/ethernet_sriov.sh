@@ -138,8 +138,8 @@ case $choose in
     chmod +x /etc/sr-iov-registermacaddr.sh
 
     echo -e "${C_GREEN}开始创建Daemon服务${C_NC}"
-    TIMER_PROFILE="$sriov-$super_iface_name.timer"
-    PROFILE="$sriov-$super_iface_name.service"
+    TIMER_PROFILE="sriov-$super_iface_name.timer"
+    PROFILE="sriov-$super_iface_name.service"
     TIMER_DAEMON_CONFIG="[Unit]
 [Unit]
 Description=Enable SR-IOV ForwardDB Check Timer
@@ -166,7 +166,6 @@ ExecStart=/usr/bin/bash -c '/etc/sr-iov-registermacaddr.sh $super_iface_name $pf
         systemctl daemon-reload
         systemctl enable $TIMER_PROFILE --now
         echo -e "${C_GREEN}daemon服务已启动${C_NC}"
-
 ;;
 *)
     exit 0
