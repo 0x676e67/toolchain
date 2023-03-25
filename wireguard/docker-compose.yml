@@ -4,15 +4,15 @@ services:
   wg-easy:
     environment:
       # ⚠️ Change the server's hostname (clients will connect to):
-      - WG_HOST="${WG_HOST}"
+      - WG_HOST=${WG_HOST}
 
       # ⚠️ Change the Web UI Password:
-      - PASSWORD="${PASSWORD}"
+      - PASSWORD=${PASSWORD}
     image: weejewel/wg-easy
     container_name: wg-easy
     hostname: wg-easy
     volumes:
-      - ~/.wg-easy:/etc/wireguard
+      - $PWD/.wg-easy:/etc/wireguard
     ports:
       - "51820:51820/udp"
       - "51821:51821/tcp"
