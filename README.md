@@ -5,6 +5,22 @@
 wget -qO- https://raw.githubusercontent.com/gngpp/profiles/master/uninstall_docker.sh | bash
 ```
 
+# lede-builder
+
+- 构建lede OpenWrt docker环境镜像
+ 
+```shell
+docker run -it -v $PWD:/build gngpp/lede-builder:x86
+```
+
+# openwrt-builder
+
+- 构建官方 OpenWrt docker环境镜像
+ 
+```shell
+docker run -it -v $PWD:/build gngpp/openwrt-builder:x86
+```
+
 ### Proxmox
 
 - proxmox ve开启网卡sriov
