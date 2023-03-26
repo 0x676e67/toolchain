@@ -10,7 +10,7 @@ wget -qO- https://raw.githubusercontent.com/gngpp/profiles/master/uninstall_dock
 - 构建lede OpenWrt docker环境镜像
  
 ```shell
-docker run -it -v $PWD:/build ghcr.io/gngpp/lede-builder:x86
+docker run -it -v $PWD:/build ghcr.io/gngpp/lede-builder:latest
 ```
 
 </details>
@@ -20,7 +20,7 @@ docker run -it -v $PWD:/build ghcr.io/gngpp/lede-builder:x86
 - 构建官方 OpenWrt docker环境镜像
  
 ```shell
-docker run -it -v $PWD:/build ghcr.io/gngpp/openwrt-builder:x86
+docker run -it -v $PWD:/build ghcr.io/gngpp/openwrt-builder:latest
 ```
 
 </details>
