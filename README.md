@@ -5,7 +5,7 @@
 wget -qO- https://raw.githubusercontent.com/gngpp/profiles/master/uninstall_docker.sh | bash
 ```
 
-### lede-builder
+<details> <summary>lede-builder</summary>
 
 - 构建lede OpenWrt docker环境镜像
  
@@ -13,7 +13,9 @@ wget -qO- https://raw.githubusercontent.com/gngpp/profiles/master/uninstall_dock
 docker run -it -v $PWD:/build gngpp/lede-builder:x86
 ```
 
-### openwrt-builder
+</details>
+
+<details> <summary>openwrt-builder</summary>
 
 - 构建官方 OpenWrt docker环境镜像
  
@@ -21,7 +23,9 @@ docker run -it -v $PWD:/build gngpp/lede-builder:x86
 docker run -it -v $PWD:/build gngpp/openwrt-builder:x86
 ```
 
-### Proxmox
+</details>
+
+<details> <summary>Proxmox</summary>
 
 - proxmox ve开启网卡sriov
 
@@ -29,7 +33,10 @@ docker run -it -v $PWD:/build gngpp/openwrt-builder:x86
 wget https://raw.githubusercontent.com/gngpp/profiles/master/proxmox/ethernet_sriov.sh && bash +x ethernet_sriov.sh 
 ```  
 
-### Synology
+</details>
+
+<details> <summary>Synology</summary>
+
 - 群晖（7.1）交叉工具链编译ixgbevf,进入root用户
 ```shell
 
@@ -69,3 +76,5 @@ dmesg
 insmod /lib/ixgbevf.ko
 ip link set ethX up
 ```
+
+</details>
