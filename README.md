@@ -5,6 +5,11 @@
 wget -qO- https://raw.githubusercontent.com/gngpp/profiles/master/uninstall_docker.sh | bash
 ```
 
+- 安装Docker
+```shell
+curl -sSL https://get.daocloud.io/docker | sh
+```
+
 <details> <summary>lede-builder</summary>
 
 - 构建lede OpenWrt docker环境镜像
