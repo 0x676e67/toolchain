@@ -11,7 +11,7 @@ RUN git config --global user.name "gngpp" && git config --global user.email "gng
 ENV GO111MODULE=on GOPROXY=https://goproxy.cn,direct
 
 RUN apt-get update -y && apt-get upgrade -y
-RUN apt install -y git zsh htop wget neofetch vim net-tools autoconf mingw-w64
+RUN apt install -y git zsh htop wget neofetch vim net-tools autoconf mingw-w64 sudo
 RUN rustup update
 
 # Uses "Spaceship" theme with some customization. Uses some bundled plugins and installs some more from github
@@ -24,7 +24,7 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -p https://github.com/zsh-users/zsh-completions
 
 RUN echo "neofetch" >> ~/.zshrc
-RUN cargo install cargo-deb cargo-generate-rpm sudo
+RUN cargo install cargo-deb cargo-generate-rpm
 RUN git clone https://github.com/NixOS/patchelf
 RUN cd patchelf && \
     ./bootstrap.sh && \
