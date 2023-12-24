@@ -1,10 +1,6 @@
-FROM messense/cargo-zigbuild:latest
+FROM messense/cargo-zigbuild:0.18.1
 
 LABEL org.opencontainers.image.source https://github.com/gngpp/profiles
-
-RUN sed -i s/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g /etc/apt/sources.list \
-    && sed -i s/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g /etc/apt/sources.list \
-    && apt-get update -y && apt-get upgrade -y
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo 'Asia/Shanghai' >/etc/timezone
@@ -14,7 +10,8 @@ WORKDIR /build
 RUN git config --global user.name "gngpp" && git config --global user.email "gngpp@example.com"
 ENV GO111MODULE=on GOPROXY=https://goproxy.cn,direct
 
-RUN apt install -y git zsh htop wget neofetch vim net-tools autoconf upx
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt install -y git zsh htop wget neofetch vim net-tools autoconf mingw-w64
 RUN rustup update
 
 # Uses "Spaceship" theme with some customization. Uses some bundled plugins and installs some more from github
@@ -33,5 +30,11 @@ RUN cd patchelf && \
     ./bootstrap.sh && \
     ./configure && \
     make && make check && make install
+
+# install upx
+RUN wget https://github.com/upx/upx/releases/download/v4.2.1/upx-4.2.1-amd64_linux.tar.xz
+RUN tar -xvf upx-4.2.1-amd64_linux.tar.xz
+RUN mv upx-4.2.1-amd64_linux/upx /usr/bin/upx
+RUN rm -rf upx-4.2.1-amd64_linux.tar.xz upx-4.2.1-amd64_linux
 
 ENTRYPOINT ["/usr/bin/zsh"]
