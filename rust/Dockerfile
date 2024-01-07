@@ -10,8 +10,8 @@ WORKDIR /build
 RUN git config --global user.name "gngpp" && git config --global user.email "gngpp@example.com"
 ENV GO111MODULE=on GOPROXY=https://goproxy.cn,direct
 
-RUN apt-get update -y && apt-get upgrade -y
-RUN apt install -y git zsh htop wget neofetch vim net-tools autoconf mingw-w64 sudo
+RUN apt-get update -y
+RUN apt install -y git zsh htop wget neofetch vim net-tools autoconf mingw-w64 sudo rename
 RUN rustup update
 
 # Uses "Spaceship" theme with some customization. Uses some bundled plugins and installs some more from github
