@@ -24,7 +24,7 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -p https://github.com/zsh-users/zsh-completions
 
 RUN echo "neofetch" >> ~/.zshrc
-RUN cargo install cargo-deb cargo-generate-rpm
+RUN cargo install cargo-deb
 RUN git clone https://github.com/NixOS/patchelf
 RUN cd patchelf && \
     ./bootstrap.sh && \
