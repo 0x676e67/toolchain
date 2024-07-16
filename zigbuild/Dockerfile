@@ -1,4 +1,4 @@
-FROM messense/cargo-zigbuild
+FROM messense/cargo-zigbuild:latest
 
 LABEL org.opencontainers.image.source https://github.com/gngpp/profiles
 
