@@ -1,4 +1,4 @@
-name: ZigBuild
+name: zigbuild
 
 on:
   workflow_dispatch:

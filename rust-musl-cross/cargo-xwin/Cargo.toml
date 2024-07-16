@@ -1,0 +1,37 @@
+[package]
+name = "cargo-xwin"
+version = "0.14.6"
+edition = "2021"
+description = "Cross compile Cargo project to Windows MSVC target with ease"
+license = "MIT"
+keywords = ["windows", "cargo", "msvc"]
+readme = "README.md"
+repository = "https://github.com/rust-cross/cargo-xwin"
+rust-version = "1.63"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[package.metadata.binstall]
+pkg-url = "{ repo }/releases/download/v{ version }/{ name }-v{ version }.{ target }.{ archive-format }"
+
+[dependencies]
+anyhow = "1.0.53"
+cargo-config2 = "0.1.4"
+cargo-options = "0.6.0"
+clap = { version = "4.0.0", features = ["derive", "env", "wrap_help"] }
+dirs = "5.0.0"
+fs-err = "2.7.0"
+indicatif = "0.17.2"
+paste = "1.0.12"
+path-slash = "0.2.0"
+tracing-subscriber = { version = "0.3.17", features = ["fmt"] }
+which = "4.2.4"
+xwin = { version = "0.2.9", default-features = false }
+
+[features]
+# By default we use rustls for TLS
+default = ["rustls-tls"]
+rustls-tls = ["xwin/rustls-tls"]
+# If this feature is enabled we instead use the native TLS implementation for the
+# target platform
+native-tls = ["xwin/native-tls"]

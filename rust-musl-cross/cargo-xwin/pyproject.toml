@@ -1,0 +1,10 @@
+[build-system]
+requires = ["maturin>=0.14,<0.15"]
+build-backend = "maturin"
+
+[project]
+name = "cargo-xwin"
+dependencies = ["ninja"]
+
+[tool.maturin]
+bindings = "bin"
