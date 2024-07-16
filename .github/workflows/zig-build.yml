@@ -18,6 +18,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: ｜
-        cd rust
-        ./build.sh
+      run: cd rust && ./build.sh
