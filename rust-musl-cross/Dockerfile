@@ -46,7 +46,7 @@ COPY $RUST_MUSL_MAKE_CONFIG /tmp/config.mak
 COPY musl-patch-configure.diff /tmp/musl-patch-configure.diff
 
 RUN cd /tmp && \
-    git clone --depth 1 https://github.com/gngpp/musl-cross-make.git && \
+    git clone --depth 1 https://github.com/richfelker/musl-cross-make.git && \
     cp /tmp/config.mak /tmp/musl-cross-make/config.mak && \
     cd /tmp/musl-cross-make && \
     mkdir patches/musl-1.1.24 && \
