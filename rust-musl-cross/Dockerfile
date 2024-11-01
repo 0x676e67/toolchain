@@ -65,6 +65,8 @@ RUN mkdir -p /home/rust/libs /home/rust/src
 # Set up our path with all our binary directories, including those for the
 # musl-gcc toolchain and for our Rust toolchain.
 ENV PATH=/root/.cargo/bin:/usr/local/musl/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV CC=$TARGET-gcc
+ENV CXX=$TARGET-g++
 ENV TARGET_CC=$TARGET-gcc
 ENV TARGET_CXX=$TARGET-g++
 ENV TARGET_AR=$TARGET-ar
