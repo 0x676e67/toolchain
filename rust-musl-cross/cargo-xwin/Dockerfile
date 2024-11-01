@@ -21,13 +21,13 @@ FROM rust:$RUST_VERSION
 
 RUN set -eux; \
     curl --fail https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor > /usr/share/keyrings/winehq.gpg; \
-    echo "deb [signed-by=/usr/share/keyrings/winehq.gpg] https://dl.winehq.org/wine-builds/debian/ bullseye main" > /etc/apt/sources.list.d/winehq.list; \
+    echo "deb [signed-by=/usr/share/keyrings/winehq.gpg] https://dl.winehq.org/wine-builds/debian/ bookworm main" > /etc/apt/sources.list.d/winehq.list; \
     # The way the debian package works requires that we add x86 support, even
     # though we are only going be running x86_64 executables. We could also
     # build from source, but that is out of scope.
     dpkg --add-architecture i386
 RUN set -eux; \
-    apt-get update && apt-get install --no-install-recommends -y clang cmake ninja-build; \
+    apt-get update && apt-get install --no-install-recommends -y clang winehq-staging cmake ninja-build; \
     apt-get remove -y --auto-remove; \
     rm -rf /var/lib/apt/lists/*;
 
