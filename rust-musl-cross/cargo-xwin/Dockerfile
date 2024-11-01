@@ -1,6 +1,6 @@
 ARG RUST_VERSION=latest
 
-FROM rust:latest as builder
+FROM rust:latest AS builder
 
 ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
 
@@ -25,8 +25,9 @@ RUN set -eux; \
     # The way the debian package works requires that we add x86 support, even
     # though we are only going be running x86_64 executables. We could also
     # build from source, but that is out of scope.
-    dpkg --add-architecture i386; \
-    apt-get update && apt-get install --no-install-recommends -y clang winehq-staging cmake ninja-build; \
+    dpkg --add-architecture i386
+    
+RUN apt-get update && apt-get install --no-install-recommends -y clang winehq-staging cmake ninja-build; \
     apt-get remove -y --auto-remove; \
     rm -rf /var/lib/apt/lists/*;
 
