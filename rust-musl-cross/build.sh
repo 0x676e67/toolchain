@@ -8,9 +8,9 @@ if [ "$CACHE" = true ]; then
 fi
 
 # x86_64-pc-windows-msvc
-#cd cargo-xwin
-#docker build $NO_CACHE -t ghcr.io/penumbra-x/rust-musl-cross:x86_64-pc-windows-msvc . --push
-#cd -
+cd cargo-xwin
+docker build $NO_CACHE -t ghcr.io/penumbra-x/rust-musl-cross:x86_64-pc-windows-msvc . --push
+cd -
 
 # x86_64-unknown-linux-musl
 docker build $NO_CACHE -t ghcr.io/penumbra-x/rust-musl-cross:x86_64-unknown-linux-musl . --push
