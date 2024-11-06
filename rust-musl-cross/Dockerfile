@@ -137,14 +137,26 @@ RUN if [ "$CARGO_BUILD_TARGET" = "armv7-unknown-linux-musleabihf" ]; then \
         sudo apt install -y g++-multilib; \
         rustup target add i586-unknown-linux-gnu; \
     fi 
-    
-RUN CARGO_TARGET_ENV=$(echo ${TARGET} | sed 's/-/_/g' | tr '[:lower:]' '[:upper:]') && \
-    export CARGO_TARGET_${CARGO_TARGET_ENV}_LINKER=${TARGET}-gcc && \
-    echo "export CARGO_TARGET_${CARGO_TARGET_ENV}_LINKER=${TARGET}-gcc" >> /etc/environment
 
-SHELL ["/bin/bash", "-c"]
-RUN source /etc/environment
-# RUN echo "[target.$TARGET]\nlinker = \"$TARGET-gcc\"\n" > /root/.cargo/config.toml
+# x86_64-unknown-linux-musl
+ENV CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=$TARGET-gcc
+# aarch64-unknown-linux-musl
+ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=$TARGET-gcc
+# armv7-unknown-linux-musleabihf
+ENV CARGO_TARGET_ARMV7_UNKNOWN_LINUX_MUSLEABIHF_LINKER=$TARGET-gcc
+# armv7-unknown-linux-musleabi
+ENV CARGO_TARGET_ARMV7_UNKNOWN_LINUX_MUSLEABI_LINKER=$TARGET-gcc
+# arm-unknown-linux-musleabi
+ENV CARGO_TARGET_ARM_UNKNOWN_LINUX_MUSLEABI_LINKER=$TARGET-gcc
+# arm-unknown-linux-musleabihf
+ENV CARGO_TARGET_ARM_UNKNOWN_LINUX_MUSLEABIHF_LINKER=$TARGET-gcc
+# armv5te-unknown-linux-musleabi
+ENV CARGO_TARGET_ARMV5TE_UNKNOWN_LINUX_MUSLEABI_LINKER=$TARGET-gcc
+# i686-unknown-linux-musl
+ENV CARGO_TARGET_I686_UNKNOWN_LINUX_MUSL_LINKER=$TARGET-gcc
+# i586-unknown-linux-musl
+ENV CARGO_TARGET_I586_UNKNOWN_LINUX_MUSL_LINKER=$TARGET-gcc
+
 
 # Build std sysroot for targets that doesn't have official std release
 ADD Xargo.toml /tmp/Xargo.toml
