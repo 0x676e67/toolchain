@@ -119,7 +119,13 @@ RUN chmod 755 /root/ && \
     rustup component add --toolchain $TOOLCHAIN rustfmt clippy && \
     rm -rf /root/.rustup/toolchains/$TOOLCHAIN-$GNU_TARGET/share/
 
-ENV CARGO_TARGET_${TARGET}_LINKER=${TARGET}-gcc
+RUN CARGO_TARGET_ENV=$(echo ${TARGET} | sed 's/-/_/g' | tr '[:lower:]' '[:upper:]') && \
+    export CARGO_TARGET_${CARGO_TARGET_ENV}_LINKER=${TARGET}-gcc && \
+    echo "export CARGO_TARGET_${CARGO_TARGET_ENV}_LINKER=${TARGET}-gcc" >> /etc/environment
+
+SHELL ["/bin/bash", "-c"]
+RUN source /etc/environment
+ENV CARGO_TARGET_${CARGO_TARGET_ENV}_LINKER=${TARGET}-gcc
 RUN echo "[target.$TARGET]\nlinker = \"$TARGET-gcc\"\n" > /root/.cargo/config.toml
 
 # Build std sysroot for targets that doesn't have official std release
