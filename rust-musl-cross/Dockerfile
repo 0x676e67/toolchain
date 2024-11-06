@@ -119,25 +119,7 @@ RUN chmod 755 /root/ && \
     rustup component add --toolchain $TOOLCHAIN rustfmt clippy && \
     rm -rf /root/.rustup/toolchains/$TOOLCHAIN-$GNU_TARGET/share/
 
-RUN sudo apt update -y && sudo apt install -y gcc-multilib gcc make musl-dev musl-tools
-RUN if [ "$CARGO_BUILD_TARGET" = "armv7-unknown-linux-musleabihf" ]; then \
-        sudo apt install -y libc6-dev-armhf-cross; \
-    elif [ "$CARGO_BUILD_TARGET" = "armv7-unknown-linux-musleabi" ]; then \
-        sudo apt install -y libc6-dev-armel-cross; \
-    elif [ "$CARGO_BUILD_TARGET" = "arm-unknown-linux-musleabi" ]; then \
-        sudo apt install -y libc6-dev-armel-cross; \
-    elif [ "$CARGO_BUILD_TARGET" = "arm-unknown-linux-musleabihf" ]; then \
-        sudo apt install -y libc6-dev-armhf-cross; \
-    elif [ "$CARGO_BUILD_TARGET" = "aarch64-unknown-linux-musl" ]; then \
-        sudo apt install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu libc6-dev-arm64-cross; \
-    elif [ "$CARGO_BUILD_TARGET" = "i686-unknown-linux-musl" ]; then \
-        sudo apt install -y g++-multilib; \
-        rustup target add i686-unknown-linux-gnu; \
-    elif [ "$CARGO_BUILD_TARGET" = "i586-unknown-linux-musl" ]; then \
-        sudo apt install -y g++-multilib; \
-        rustup target add i586-unknown-linux-gnu; \
-    fi 
-
+RUN echo "[target.$TARGET]\nlinker = \"$TARGET-gcc\"\n" > /root/.cargo/config.toml
 # x86_64-unknown-linux-musl
 ENV CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=$TARGET-gcc
 # aarch64-unknown-linux-musl
@@ -156,7 +138,6 @@ ENV CARGO_TARGET_ARMV5TE_UNKNOWN_LINUX_MUSLEABI_LINKER=$TARGET-gcc
 ENV CARGO_TARGET_I686_UNKNOWN_LINUX_MUSL_LINKER=$TARGET-gcc
 # i586-unknown-linux-musl
 ENV CARGO_TARGET_I586_UNKNOWN_LINUX_MUSL_LINKER=$TARGET-gcc
-
 
 # Build std sysroot for targets that doesn't have official std release
 ADD Xargo.toml /tmp/Xargo.toml
@@ -177,5 +158,23 @@ ENV CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_MUSL_RUSTFLAGS='-C target-feature=+crt-sta
 ENV CARGO_TARGET_MIPS64_UNKNOWN_LINUX_MUSLABI64_RUSTFLAGS='-C target-feature=+crt-static'
 ENV CARGO_TARGET_MIPS64EL_UNKNOWN_LINUX_MUSLABI64_RUSTFLAGS='-C target-feature=+crt-static'
 
+RUN sudo apt update -y && sudo apt install -y gcc-multilib gcc make musl-dev musl-tools
+RUN if [ "$CARGO_BUILD_TARGET" = "armv7-unknown-linux-musleabihf" ]; then \
+        sudo apt install -y libc6-dev-armhf-cross; \
+    elif [ "$CARGO_BUILD_TARGET" = "armv7-unknown-linux-musleabi" ]; then \
+        sudo apt install -y libc6-dev-armel-cross; \
+    elif [ "$CARGO_BUILD_TARGET" = "arm-unknown-linux-musleabi" ]; then \
+        sudo apt install -y libc6-dev-armel-cross; \
+    elif [ "$CARGO_BUILD_TARGET" = "arm-unknown-linux-musleabihf" ]; then \
+        sudo apt install -y libc6-dev-armhf-cross; \
+    elif [ "$CARGO_BUILD_TARGET" = "aarch64-unknown-linux-musl" ]; then \
+        sudo apt install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu libc6-dev-arm64-cross; \
+    elif [ "$CARGO_BUILD_TARGET" = "i686-unknown-linux-musl" ]; then \
+        sudo apt install -y g++-multilib; \
+        rustup target add i686-unknown-linux-gnu; \
+    elif [ "$CARGO_BUILD_TARGET" = "i586-unknown-linux-musl" ]; then \
+        sudo apt install -y g++-multilib; \
+        rustup target add i586-unknown-linux-gnu; \
+    fi 
 # Expect our source code to live in /home/rust/src
 WORKDIR /home/rust/src
