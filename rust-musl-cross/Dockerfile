@@ -144,8 +144,7 @@ RUN CARGO_TARGET_ENV=$(echo ${TARGET} | sed 's/-/_/g' | tr '[:lower:]' '[:upper:
 
 SHELL ["/bin/bash", "-c"]
 RUN source /etc/environment
-ENV CARGO_TARGET_${CARGO_TARGET_ENV}_LINKER=${TARGET}-gcc
-RUN echo "[target.$TARGET]\nlinker = \"$TARGET-gcc\"\n" > /root/.cargo/config.toml
+# RUN echo "[target.$TARGET]\nlinker = \"$TARGET-gcc\"\n" > /root/.cargo/config.toml
 
 # Build std sysroot for targets that doesn't have official std release
 ADD Xargo.toml /tmp/Xargo.toml
