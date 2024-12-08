@@ -2,7 +2,7 @@
 set -ex
 
 CACHE=${CACHE:-true}
-NO_CACHE="$NO_CACHE"
+NO_CACHE="--no-cache"
 if [ "$CACHE" = true ]; then
     NO_CACHE=""
 fi
