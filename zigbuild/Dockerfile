@@ -1,7 +1,5 @@
 FROM messense/cargo-zigbuild:latest
 
-LABEL org.opencontainers.image.source https://github.com/gngpp/profiles
-
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo 'Asia/Shanghai' >/etc/timezone
 
