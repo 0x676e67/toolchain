@@ -72,4 +72,4 @@ jobs:
         id: build-and-push
         shell: bash
         run: |
-          bash ./build.sh
+          bash ./build.sh <<< "1"
