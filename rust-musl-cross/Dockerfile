@@ -100,6 +100,9 @@ RUN export CC=$TARGET_CC && \
     make -j$(nproc) && make install && \
     cd .. && rm -rf zlib-$VERS.tar.gz zlib-$VERS checksums.txt
 
+# Install maturin
+RUN pip install maturin maturin[patchelf]
+
 # The Rust toolchain to use when building our image
 ARG TOOLCHAIN=stable
 # Install our Rust toolchain and the `musl` target.  We patch the
