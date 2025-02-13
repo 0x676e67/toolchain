@@ -18,7 +18,7 @@ env:
 jobs:
   build:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -65,4 +65,4 @@ jobs:
       - name: Build and push Docker image
         id: build-and-push
         shell: bash
-        run: cd rust-musl-cross && bash ./build.sh
+        run: cd rust-musl-cross && bash ./build.sh <<< "1"
