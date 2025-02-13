@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Default cache settings
-USER=${USER:0x676e67}
+USER=${USER:-0x676e67}
 CACHE=${CACHE:-true}
 NO_CACHE="--no-cache"
 if [ "$CACHE" = true ]; then
