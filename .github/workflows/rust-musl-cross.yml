@@ -6,6 +6,8 @@ name: rust-musl-cross
 # documentation.
 
 on:
+  schedule:
+    - cron: '0 0 * * 1'  # 每周一 0:00 UTC 时间执行
   workflow_dispatch:
 
 env:
