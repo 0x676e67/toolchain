@@ -56,7 +56,7 @@ build_single_target() {
             cd -
             ;;
         2)
-            build_target "x86_64-unknown-linux-musl" "" "ghcr.io/${AUTHOR}/rust-musl-cross:x86_64-unknown-linux-musl"
+            build_target "x86_64-unknown-linux-musl" "" "ghcr.io/${AUTHOR}/rust-musl-cross:x86_64-unknown-linux-musl,ghcr.io/${AUTHOR}/rust-musl-cross:x86_64-unknown-linux-gnu"
             ;;
         3)
             build_target "aarch64-unknown-linux-musl" "--build-arg TARGET=aarch64-unknown-linux-musl --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:aarch64-unknown-linux-musl"
