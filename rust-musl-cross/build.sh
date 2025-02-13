@@ -77,10 +77,10 @@ build_single_target() {
             build_target "armv5te-unknown-linux-musleabi" "--build-arg TARGET=armv5te-unknown-linux-musleabi --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:armv5te-unknown-linux-musleabi"
             ;;
         9)
-            build_target "i686-unknown-linux-musl" "--build-arg TARGET=i686-unknown-linux-musl --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:i686-unknown-linux-musl,ghcr.io/penumbra-x/rust-musl-cross:i686-unknown-linux-gnu"
+            build_target "i686-unknown-linux-musl" "--build-arg TARGET=i686-unknown-linux-musl --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:i686-unknown-linux-musl,ghcr.io/${AUTHOR}/rust-musl-cross:i686-unknown-linux-gnu"
             ;;
         10)
-            build_target "i586-unknown-linux-musl" "--build-arg TARGET=i586-unknown-linux-musl --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:i586-unknown-linux-musl,ghcr.io/penumbra-x/rust-musl-cross:i586-unknown-linux-gnu"
+            build_target "i586-unknown-linux-musl" "--build-arg TARGET=i586-unknown-linux-musl --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:i586-unknown-linux-musl,ghcr.io/${AUTHOR}/rust-musl-cross:i586-unknown-linux-gnu"
             ;;
         *)
             echo "Invalid target key: $key"
