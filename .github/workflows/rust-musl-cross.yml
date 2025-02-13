@@ -65,4 +65,4 @@ jobs:
       - name: Build and push Docker image
         id: build-and-push
         shell: bash
-        run: cd rust-musl-cross && bash ./build.sh <<< "1"
+        run: cd rust-musl-cross && bash ./build.sh <<< "0"
