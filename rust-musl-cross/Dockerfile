@@ -126,23 +126,18 @@ ENV CARGO_BUILD_TARGET=$TARGET
 RUN sudo apt update -y && sudo apt install -y gcc-multilib gcc make musl-dev musl-tools
 RUN if [ "$CARGO_BUILD_TARGET" = "armv7-unknown-linux-musleabihf" ]; then \
         sudo apt install -y libc6-dev-armhf-cross; \
-        rustup target add armv7-unknown-linux-gnueabihf; \
     elif [ "$CARGO_BUILD_TARGET" = "armv7-unknown-linux-musleabi" ]; then \
         sudo apt install -y libc6-dev-armel-cross; \
-        rustup target add armv7-unknown-linux-gnueabi; \
     elif [ "$CARGO_BUILD_TARGET" = "arm-unknown-linux-musleabi" ]; then \
         sudo apt install -y libc6-dev-armel-cross; \
     elif [ "$CARGO_BUILD_TARGET" = "arm-unknown-linux-musleabihf" ]; then \
         sudo apt install -y libc6-dev-armhf-cross; \
     elif [ "$CARGO_BUILD_TARGET" = "aarch64-unknown-linux-musl" ]; then \
-        sudo apt install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu libc6-dev-arm64-cross; \
-        rustup target add aarch64-unknown-linux-gnu; \
+        sudo apt install -y libc6-dev-arm64-cross; \
     elif [ "$CARGO_BUILD_TARGET" = "i686-unknown-linux-musl" ]; then \
         sudo apt install -y g++-multilib; \
-        rustup target add i686-unknown-linux-gnu; \
     elif [ "$CARGO_BUILD_TARGET" = "i586-unknown-linux-musl" ]; then \
         sudo apt install -y g++-multilib; \
-        rustup target add i586-unknown-linux-gnu; \
     fi
 
 RUN echo "[target.$TARGET]\nlinker = \"$TARGET-gcc\"\n" > /root/.cargo/config.toml
@@ -151,28 +146,25 @@ ENV CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=$TARGET-gcc
 
 # aarch64-unknown-linux-musl
 ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER=$TARGET-gcc
-# aaarch64-unknown-linux-gnu
-ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=$TARGET-gcc
 
 # armv7-unknown-linux-musleabihf
 ENV CARGO_TARGET_ARMV7_UNKNOWN_LINUX_MUSLEABIHF_LINKER=$TARGET-gcc
-# armv7-unknown-linux-gnueabihf
-ENV CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=$TARGET-gcc
 
 # armv7-unknown-linux-musleabi
 ENV CARGO_TARGET_ARMV7_UNKNOWN_LINUX_MUSLEABI_LINKER=$TARGET-gcc
-# armv7-unknown-linux-gnueabi
-ENV CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABI_LINKER=$TARGET-gcc
 
 # arm-unknown-linux-musleabi
 ENV CARGO_TARGET_ARM_UNKNOWN_LINUX_MUSLEABI_LINKER=$TARGET-gcc
+
 # arm-unknown-linux-musleabihf
 ENV CARGO_TARGET_ARM_UNKNOWN_LINUX_MUSLEABIHF_LINKER=$TARGET-gcc
+
 # armv5te-unknown-linux-musleabi
 ENV CARGO_TARGET_ARMV5TE_UNKNOWN_LINUX_MUSLEABI_LINKER=$TARGET-gcc
 
 # i686-unknown-linux-musl
 ENV CARGO_TARGET_I686_UNKNOWN_LINUX_MUSL_LINKER=$TARGET-gcc
+
 # i586-unknown-linux-musl
 ENV CARGO_TARGET_I586_UNKNOWN_LINUX_MUSL_LINKER=$TARGET-gcc
 

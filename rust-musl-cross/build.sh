@@ -11,15 +11,15 @@ fi
 # Define the targets
 declare -A TARGETS=(
     ["1"]="x86_64-pc-windows-msvc"
-    ["2"]="x86_64-unknown-linux-musl,x86_64-unknown-linux-gnu"
-    ["3"]="aarch64-unknown-linux-musl,aarch64-unknown-linux-gnu"
-    ["4"]="armv7-unknown-linux-musleabihf,armv7-unknown-linux-gnueabihf"
-    ["5"]="armv7-unknown-linux-musleabi,armv7-unknown-linux-gnueabi"
+    ["2"]="x86_64-unknown-linux-musl"
+    ["3"]="aarch64-unknown-linux-musl"
+    ["4"]="armv7-unknown-linux-musleabihf"
+    ["5"]="armv7-unknown-linux-musleabi"
     ["6"]="arm-unknown-linux-musleabi"
     ["7"]="arm-unknown-linux-musleabihf"
     ["8"]="armv5te-unknown-linux-musleabi"
-    ["9"]="i686-unknown-linux-musl,i686-unknown-linux-gnu"
-    ["10"]="i586-unknown-linux-musl,i586-unknown-linux-gnu"
+    ["9"]="i686-unknown-linux-musl"
+    ["10"]="i586-unknown-linux-musl"
 )
 
 # Function to build a specific target
@@ -56,13 +56,13 @@ build_single_target() {
             cd -
             ;;
         2)
-            build_target "x86_64-unknown-linux-musl" "" "ghcr.io/${AUTHOR}/rust-musl-cross:x86_64-unknown-linux-musl,ghcr.io/${AUTHOR}/rust-musl-cross:x86_64-unknown-linux-gnu"
+            build_target "x86_64-unknown-linux-musl" "" "ghcr.io/${AUTHOR}/rust-musl-cross:x86_64-unknown-linux-musl"
             ;;
         3)
-            build_target "aarch64-unknown-linux-musl" "--build-arg TARGET=aarch64-unknown-linux-musl --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:aarch64-unknown-linux-musl,ghcr.io/${AUTHOR}/rust-musl-cross:aarch64-unknown-linux-gnu"
+            build_target "aarch64-unknown-linux-musl" "--build-arg TARGET=aarch64-unknown-linux-musl --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:aarch64-unknown-linux-musl"
             ;;
         4)
-            build_target "armv7-unknown-linux-musleabihf" "--build-arg TARGET=armv7-unknown-linux-musleabihf --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:armv7-unknown-linux-musleabihf,ghcr.io/${AUTHOR}/rust-musl-cross:armv7-unknown-linux-gnueabihf"
+            build_target "armv7-unknown-linux-musleabihf" "--build-arg TARGET=armv7-unknown-linux-musleabihf --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:armv7-unknown-linux-musleabihf"
             ;;
         5)
             build_target "armv7-unknown-linux-musleabi" "--build-arg TARGET=armv7-unknown-linux-musleabi --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:armv7-unknown-linux-musleabi"
@@ -77,10 +77,10 @@ build_single_target() {
             build_target "armv5te-unknown-linux-musleabi" "--build-arg TARGET=armv5te-unknown-linux-musleabi --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:armv5te-unknown-linux-musleabi"
             ;;
         9)
-            build_target "i686-unknown-linux-musl" "--build-arg TARGET=i686-unknown-linux-musl --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:i686-unknown-linux-musl,ghcr.io/${AUTHOR}/rust-musl-cross:i686-unknown-linux-gnu"
+            build_target "i686-unknown-linux-musl" "--build-arg TARGET=i686-unknown-linux-musl --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:i686-unknown-linux-musl"
             ;;
         10)
-            build_target "i586-unknown-linux-musl" "--build-arg TARGET=i586-unknown-linux-musl --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:i586-unknown-linux-musl,ghcr.io/${AUTHOR}/rust-musl-cross:i586-unknown-linux-gnu"
+            build_target "i586-unknown-linux-musl" "--build-arg TARGET=i586-unknown-linux-musl --build-arg RUST_MUSL_MAKE_CONFIG=config.mak" "ghcr.io/${AUTHOR}/rust-musl-cross:i586-unknown-linux-musl"
             ;;
         *)
             echo "Invalid target key: $key"
