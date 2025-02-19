@@ -1,7 +1,18 @@
 name: zigbuild
 
 on:
+  schedule:
+    - cron: '0 0 1 * *'  # 每个月的第一天 0:00 UTC 时间执行
   workflow_dispatch:
+    inputs:
+      runner:
+        description: '选择运行器'
+        required: true
+        default: 'ubuntu-latest'
+        type: choice
+        options:
+          - ubuntu-latest
+          - self-hosted
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -12,9 +23,14 @@ env:
 jobs:
 
   build:
-
-    runs-on: self-hosted
-
+    runs-on: ${{ github.event.inputs.runner }}
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
     steps:
     - uses: actions/checkout@v4
 
