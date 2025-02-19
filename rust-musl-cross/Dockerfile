@@ -134,7 +134,7 @@ RUN if [ "$CARGO_BUILD_TARGET" = "armv7-unknown-linux-musleabihf" ]; then \
     elif [ "$CARGO_BUILD_TARGET" = "arm-unknown-linux-musleabihf" ]; then \
         sudo apt install -y libc6-dev-armhf-cross; \
     elif [ "$CARGO_BUILD_TARGET" = "aarch64-unknown-linux-musl" ]; then \
-        sudo apt install -y libc6-dev-arm64-cross; \
+        sudo apt install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu libc6-dev-arm64-cross; \
     elif [ "$CARGO_BUILD_TARGET" = "i686-unknown-linux-musl" ]; then \
         sudo apt install -y g++-multilib; \
     elif [ "$CARGO_BUILD_TARGET" = "i586-unknown-linux-musl" ]; then \
