@@ -38,7 +38,7 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: ghcr.io
-        username: 0x676e67
+        username: ${{ github.repository_owner }}
         password: ${{ secrets.CR_PAT }}
         
     - name: Build the Docker image
