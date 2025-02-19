@@ -46,9 +46,10 @@ COPY $RUST_MUSL_MAKE_CONFIG /tmp/config.mak
 COPY musl-patch-configure.diff /tmp/musl-patch-configure.diff
 
 RUN cd /tmp && \
-    git clone --depth 1 https://github.com/richfelker/musl-cross-make.git && \
-    cp /tmp/config.mak /tmp/musl-cross-make/config.mak && \
-    cd /tmp/musl-cross-make && \
+    git clone https://github.com/richfelker/musl-cross-make.git && \
+    cd musl-cross-make && \
+    git checkout 7b4c7b315226835bab03da73a45945acb1b3bedf && \
+    cp /tmp/config.mak config.mak && \
     mkdir -p patches/musl-1.1.24 && \
     cp /tmp/musl-patch-configure.diff patches/musl-1.1.24/0001-fix-cfi-detection.diff && \
     export CFLAGS="-fPIC -g1 $CFLAGS" && \
@@ -58,7 +59,7 @@ RUN cd /tmp && \
     $SETARCH make install >> /tmp/musl-cross-make.log && \
     ln -s /usr/local/musl/bin/$TARGET-strip /usr/local/musl/bin/musl-strip && \
     cd /tmp && \
-    rm -rf /tmp/musl-cross-make /tmp/musl-cross-make.log
+    rm -rf musl-cross-make musl-cross-make.log
 
 RUN mkdir -p /home/rust/libs /home/rust/src
 
